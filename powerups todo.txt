@@ -1,8 +1,11 @@
 v1
 -	@MH: Disable IP check setting
--	Add way to see duration of accessory powerups
--	Implement powerup graphic
+-	Add way to see duration of accessory powerups (custom buff)
+	-	
+	-	Define buff
+	-	Add Better Buffs as a dependency and add API functions to draw upon buff icons
 
+-	Implement powerup graphic
 -	Implement pot drops (if Pot Luck enabled)
 -	Implement powerup creation
 -	Implement powerup definitions

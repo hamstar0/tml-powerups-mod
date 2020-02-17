@@ -26,7 +26,6 @@ namespace Powerups {
 		public List<PowerupDefinition> NPCLootPowerups = new List<PowerupDefinition> {
 			new PowerupDefinition {
 				PercentDropChance = 1f,
-				DropsFromPotsOnly = false,
 				Context = null,
 				ItemDef = null
 			}
@@ -35,7 +34,6 @@ namespace Powerups {
 		public List<PowerupDefinition> PotLootPowerups = new List<PowerupDefinition> {
 			new PowerupDefinition {
 				PercentDropChance = 0.25f,
-				DropsFromPotsOnly = false,
 				Context = null,
 				ItemDef = null
 			}

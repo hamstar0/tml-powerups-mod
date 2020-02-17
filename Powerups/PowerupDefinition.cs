@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Terraria.ModLoader.Config;
 using Terraria;
+using Terraria.ModLoader.Config;
 using HamstarHelpers.Classes.Context;
-using HamstarHelpers.Services.EntityGroups;
 using HamstarHelpers.Classes.DataStructures;
 using HamstarHelpers.Helpers.TModLoader;
+using HamstarHelpers.Services.EntityGroups;
 using HamstarHelpers.Services.EntityGroups.Definitions;
 
 
@@ -16,8 +16,6 @@ namespace Powerups {
 		[Range( 0f, 1f )]
 		[DefaultValue( 1f )]
 		public float PercentDropChance { get; set; } = 1f;
-
-		public bool DropsFromPotsOnly { get; set; } = false;
 
 		public ContextConfig Context { get; set; } = null;
 
