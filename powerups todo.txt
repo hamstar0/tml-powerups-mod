@@ -1,5 +1,7 @@
 v1
--	@MH: Disable IP check setting
+-	@MH
+	-	Disable IP check setting
+	-	Link to Discord?
 -	Add way to see duration of accessory powerups (custom buff)
 	-	Implement graphic cycling
 
