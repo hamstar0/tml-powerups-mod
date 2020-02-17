@@ -1,10 +1,11 @@
 v1
 -	@MH: Disable IP check setting
 -	Add way to see duration of accessory powerups (custom buff)
-	-	
-	-	Define buff
-	-	Add Better Buffs as a dependency and add API functions to draw upon buff icons
+	-	Implement graphic cycling
 
+	-	Implement timer indications for each accessory item "buff"
+	-	Define buff
+	-	@Import buff icon rectangles from Better Buffs as a Mod Helpers feature
 -	Implement powerup graphic
 -	Implement pot drops (if Pot Luck enabled)
 -	Implement powerup creation
