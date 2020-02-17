@@ -1,0 +1,11 @@
+v1
+-	@MH: Disable IP check setting
+-	Add way to see duration of accessory powerups
+
+-	Implement pot drops (if Pot Luck enabled)
+-	Implement powerup creation
+-	Implement powerup definitions
+	-	Implement config
+-	Implement powerup graphic
+-	Define powerup
+-	Setup project
