@@ -1,5 +1,5 @@
 v1
--	@Create Fleeting Goodies mod
+-	@Add 'Focus' to recharge mana with Powerful Magic
 -	@MH
 	-	Disable IP check setting
 	-	Link to Discord?
