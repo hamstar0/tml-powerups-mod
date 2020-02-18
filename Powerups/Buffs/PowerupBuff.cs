@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,8 +11,38 @@ using HamstarHelpers.Helpers.XNA;
 
 namespace Powerups.Buffs {
 	class PowerupBuff : ModBuff {
+		private static int ItemAnimationPhase = 0;
+		private static int ItemAnimationPhaseDuration = 0;
+
+
+
+		////////////////
+
 		public static void DrawBuffIconOverlay( Rectangle frame ) {
-			f
+			var myplayer = TmlHelpers.SafelyGetModPlayer<PowerupsPlayer>( Main.LocalPlayer );
+			int itemCount = myplayer.PowerupItems
+				.Where( i => i.Item.accessory )
+				.Count();
+			if( itemCount == 0 ) {
+				return;
+			}
+
+			if( PowerupBuff.ItemAnimationPhaseDuration == 0 ) {
+				PowerupBuff.ItemAnimationPhaseDuration = 30;
+				PowerupBuff.ItemAnimationPhase++;
+				if( PowerupBuff.ItemAnimationPhase >= itemCount ) {
+					PowerupBuff.ItemAnimationPhase = 0;
+				}
+			}
+
+			Item phaseItem = myplayer.PowerupItems[ PowerupBuff.ItemAnimationPhase ].Item;
+
+			Main.spriteBatch.Draw(
+				texture: Main.itemTexture[ phaseItem.type ],
+				destinationRectangle: frame,
+				sourceRectangle: null,
+				color: Color.White
+			);
 		}
 
 

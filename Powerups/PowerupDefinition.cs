@@ -37,7 +37,7 @@ namespace Powerups {
 			if( this.ItemDef != null ) {
 				baseItem = new Item();
 				baseItem.SetDefaults( this.ItemDef.Type, true );
-			} else if( string.IsNullOrEmpty(this.ItemEntityGroupName) ) {
+			} else if( !string.IsNullOrEmpty(this.ItemEntityGroupName) ) {
 				IReadOnlySet<int> group;
 				if( EntityGroups.TryGetItemGroup(this.ItemEntityGroupName, out group) ) {
 					var groupArr = group.ToArray();

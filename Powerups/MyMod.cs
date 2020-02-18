@@ -1,13 +1,13 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.UI;
+using HamstarHelpers.Helpers.Buffs;
 using HamstarHelpers.Services.EntityGroups;
 using Powerups.Items;
-using System.Collections.Generic;
-using Terraria.UI;
 using Powerups.Buffs;
-using HamstarHelpers.Helpers.Buffs;
 
 
 namespace Powerups {
@@ -61,30 +61,30 @@ namespace Powerups {
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
-			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Info Accessories Bar" ) );
-			if( idx == -1 ) {
-				idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Inventory" ) );
-				if( idx == -1 ) { return; }
+			int layerIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Info Accessories Bar" ) );
+			if( layerIdx == -1 ) {
+				layerIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Inventory" ) );
+				if( layerIdx == -1 ) { return; }
 
-				idx += 1;
+				layerIdx += 1;
 			}
 
 			GameInterfaceDrawMethod buffIconOverlays = () => {
-				int idx = Main.LocalPlayer.FindBuffIndex( ModContent.BuffType<PowerupBuff>() );
-				if( idx == -1 ) {
+				int buffIdx = Main.LocalPlayer.FindBuffIndex( ModContent.BuffType<PowerupBuff>() );
+				if( buffIdx == -1 ) {
 					return true;
 				}
 
 				IDictionary<int, Rectangle> buffFrames = BuffHUDHelpers.GetVanillaBuffIconRectanglesByPosition( false );
 
-				if( buffFrames.ContainsKey(idx) ) {
-					PowerupBuff.DrawBuffIconOverlay( buffFrames[idx] );
+				if( buffFrames.ContainsKey(buffIdx) ) {
+					PowerupBuff.DrawBuffIconOverlay( buffFrames[buffIdx] );
 				}
 				return true;
 			};
 
 			var tradeLayer = new LegacyGameInterfaceLayer( "Powerups: Buff Icon Overlays", buffIconOverlays, InterfaceScaleType.UI );
-			layers.Insert( idx, tradeLayer );
+			layers.Insert( layerIdx, tradeLayer );
 		}
 	}
 }

@@ -7,10 +7,11 @@ using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Buffs;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.Items;
+using Powerups.Buffs;
 
 
 namespace Powerups.Items {
-	public class PowerupItem : ModItem {
+	public partial class PowerupItem : ModItem {
 		public static Item Create( Item baseItem, Vector2 position, int tickDuration ) {
 			int powerupType = ModContent.ItemType<PowerupItem>();
 			int powerupItemWho = ItemHelpers.CreateItem( position, powerupType, 1, 16, 16 );
@@ -23,7 +24,7 @@ namespace Powerups.Items {
 			if( baseItem.potion ) {
 				myitem.BaseBuffType = baseItem.buffType;
 			} else if( !baseItem.accessory ) {
-				LogHelpers.Alert( "Invalid powerup base item "+baseItem.Name );
+				LogHelpers.Alert( "Invalid powerup base item " + baseItem.Name );
 				return null;
 			}
 
@@ -49,7 +50,7 @@ namespace Powerups.Items {
 		////////////////
 
 		public override void SetStaticDefaults() {
-			this.DisplayName.SetDefault("Powerup");
+			this.DisplayName.SetDefault( "Powerup" );
 			this.Tooltip.SetDefault( "Can you feel the power?" );
 		}
 
@@ -68,7 +69,7 @@ namespace Powerups.Items {
 			string itemName = tag.GetString( "item" );
 			this.BaseBuffType = tag.GetInt( "buff" );
 
-			if( string.IsNullOrEmpty(itemName) ) {
+			if( string.IsNullOrEmpty( itemName ) ) {
 				var itemDef = new ItemDefinition( itemName );
 				this.BaseItem = new Item();
 				this.BaseItem.SetDefaults( itemDef.Type );
@@ -94,7 +95,7 @@ namespace Powerups.Items {
 			if( this.BaseBuffType != -1 ) {
 				player.AddBuff( this.BaseBuffType, this.TickDuration );
 
-				string msg = BuffAttributesHelpers.GetBuffDisplayName( this.BaseBuffType )+" Powerup!";
+				string msg = BuffAttributesHelpers.GetBuffDisplayName( this.BaseBuffType ) + " Powerup!";
 				CombatText.NewText( player.getRect(), Color.Lime, msg );
 			}
 
@@ -104,6 +105,8 @@ namespace Powerups.Items {
 
 				string msg = this.BaseItem.Name + " Powerup!";
 				CombatText.NewText( player.getRect(), Color.Lime, msg );
+
+				player.AddBuff( ModContent.BuffType<PowerupBuff>(), 2 );
 			}
 
 			return false;
