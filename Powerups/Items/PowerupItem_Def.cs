@@ -15,7 +15,11 @@ namespace Powerups.Items {
 		public static Item Create( Item baseItem, Vector2 position, int tickDuration, bool isTypeHidden ) {
 			int powerupType = ModContent.ItemType<PowerupItem>();
 			int powerupItemWho = ItemHelpers.CreateItem( position, powerupType, 1, 16, 16 );
-			Item powerupItem = Main.item[powerupItemWho];
+
+			Item powerupItem = Main.item[ powerupItemWho ];
+			if( !powerupItem.active ) {
+				return null;
+			}
 
 			var myitem = (PowerupItem)powerupItem.modItem;
 			myitem.BaseItem = baseItem;
@@ -34,7 +38,7 @@ namespace Powerups.Items {
 			} else {
 				powerupItem.SetNameOverride( "Mystery Powerup" );
 			}
-
+			
 			return powerupItem;
 		}
 

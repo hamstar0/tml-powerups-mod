@@ -1,4 +1,5 @@
-﻿using Powerups.Items;
+﻿using HamstarHelpers.Helpers.Debug;
+using Powerups.Items;
 using System;
 using Terraria;
 using Terraria.ModLoader;

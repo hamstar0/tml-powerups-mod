@@ -25,7 +25,6 @@ namespace Powerups {
 			foreach( PowerupDefinition powDef in PowerupsConfig.Instance.NPCLootPowerups ) {
 				if( powDef.Context?.ToContext().Check(tileX, tileY) ?? true ) {
 					powDefs.Add( powDef );
-					PowerupItem.Create( powDef.PickBaseItem(), position, powDef.TickDuration, powDef.IsTypeHidden );
 				}
 			}
 
