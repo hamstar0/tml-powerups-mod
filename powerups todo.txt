@@ -6,14 +6,14 @@ v1
 -	Add API for applying processing powerups
 -	Add powerup item pickup FX
 -	Add powerup item lingering FX
+
 -	Add powerup item hover text
 -	Set buff removal to clear all current powerups
 -	Fixes and improvements
 	-	Powerup item overlay size and brightness
-	-	Buff icon overlay brightness
+	-	Fix buff image cycling
 	-	Buff icon overlay draw layer depth
 	-	Buff tooltips (remove color, fix timer)
-
 -	Add way to see duration of accessory powerups (custom buff)
 	-	Implement graphic cycling
 	-	Implement timer indications for each accessory item "buff"

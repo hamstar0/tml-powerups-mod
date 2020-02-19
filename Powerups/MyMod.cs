@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -61,21 +62,23 @@ namespace Powerups {
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
-			int layerIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Info Accessories Bar" ) );
-			if( layerIdx == -1 ) {
-				layerIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Inventory" ) );
-				if( layerIdx == -1 ) { return; }
-
-				layerIdx += 1;
-			}
+			int layerIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Inventory" ) );
+			if( layerIdx == -1 ) { return; }
 
 			GameInterfaceDrawMethod buffIconOverlays = () => {
+				if( Main.playerInventory ) {
+					return true;
+				}
+
 				int buffIdx = Main.LocalPlayer.FindBuffIndex( ModContent.BuffType<PowerupBuff>() );
 				if( buffIdx == -1 ) {
 					return true;
 				}
 
 				IDictionary<int, Rectangle> buffFrames = BuffHUDHelpers.GetVanillaBuffIconRectanglesByPosition( false );
+				foreach( KeyValuePair<int, Rectangle> kv in buffFrames.ToArray() ) {
+					buffFrames[kv.Key] = new Rectangle( kv.Value.X + 2, kv.Value.Y + 2, kv.Value.Width - 4, kv.Value.Height - 4 );
+				}
 
 				if( buffFrames.ContainsKey(buffIdx) ) {
 					PowerupBuff.DrawBuffIconOverlay( buffFrames[buffIdx] );

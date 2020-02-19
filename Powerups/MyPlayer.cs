@@ -1,3 +1,4 @@
+using Powerups.Buffs;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -23,6 +24,14 @@ namespace Powerups {
 
 
 		////////////////
+
+		public override void PreUpdate() {
+			if( !this.player.HasBuff(ModContent.BuffType<PowerupBuff>()) ) {
+				if( this.PowerupItems.Count > 0 ) {
+					this.PowerupItems.Clear();
+				}
+			}
+		}
 
 		public override void UpdateEquips( ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff ) {
 			for( int i = 0; i < this.PowerupItems.Count; i++ ) {

@@ -5,8 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.TModLoader;
 using HamstarHelpers.Helpers.Misc;
-using HamstarHelpers.Helpers.Items.Attributes;
-using HamstarHelpers.Helpers.XNA;
 
 
 namespace Powerups.Buffs {
@@ -22,12 +20,14 @@ namespace Powerups.Buffs {
 			var myplayer = TmlHelpers.SafelyGetModPlayer<PowerupsPlayer>( Main.LocalPlayer );
 			int itemCount = myplayer.PowerupItems
 				.Where( i => i.Item.accessory )
-				.Count();
+				.ToArray()
+				.Length;
 			if( itemCount == 0 ) {
 				return;
 			}
 
-			if( PowerupBuff.ItemAnimationPhaseDuration == 0 ) {
+			PowerupBuff.ItemAnimationPhaseDuration--;
+			if( PowerupBuff.ItemAnimationPhaseDuration <= 0 ) {
 				PowerupBuff.ItemAnimationPhaseDuration = 30;
 				PowerupBuff.ItemAnimationPhase++;
 				if( PowerupBuff.ItemAnimationPhase >= itemCount ) {
@@ -64,10 +64,10 @@ namespace Powerups.Buffs {
 			foreach( (int tickDuration, Item item) in myplayer.PowerupItems ) {
 				if( !item.accessory ) { continue; }
 
-				Color color = ItemRarityAttributeHelpers.RarityColor[ item.rare ];
-				string colorHex = XNAColorHelpers.RenderHex( color );
+				//Color color = ItemRarityAttributeHelpers.RarityColor[ item.rare ];
+				//string colorHex = XNAColorHelpers.RenderHex( color );
 
-				tip += "\n [c/"+colorHex+":" + item.Name + "]: " + MiscHelpers.RenderTickDuration(tickDuration) + " remaining";
+				tip += "\n  " + item.Name + ": " + MiscHelpers.RenderTickDuration(tickDuration) + " remaining";
 			}
 		}
 

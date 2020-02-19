@@ -28,6 +28,8 @@ namespace Powerups.Items {
 				return null;
 			}
 
+			powerupItem.SetNameOverride( baseItem.Name + " Powerup" );
+
 			return powerupItem;
 		}
 
