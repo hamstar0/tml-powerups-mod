@@ -1,9 +1,4 @@
 v1
--	@Add 'Focus' to recharge mana with Powerful Magic
--	@MH
-	-	Disable IP check setting
-	-	Link to Discord?
-
 -	Add API for applying processing to created powerups
 -	Add powerup item pickup FX
 -	Add powerup item lingering FX

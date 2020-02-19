@@ -3,4 +3,4 @@ author = hamstar
 version = 1.0.0
 modReferences = HamstarHelpers@5.5.0
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
-homepage = https://forums.terraria.org/index.php?threads/adventure-mode.85140/
+homepage = https://forums.terraria.org/index.php?threads/powerups.86119/
