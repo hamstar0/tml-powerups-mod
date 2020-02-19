@@ -9,7 +9,7 @@ namespace Powerups {
 		public override void NPCLoot( NPC npc ) {
 			foreach( PowerupDefinition powDef in PowerupsConfig.Instance.NPCLootPowerups ) {
 				if( powDef.Context?.ToContext().Check() ?? true ) {
-					PowerupItem.Create( powDef.PickBaseItem(), npc.position, powDef.TickDuration );
+					PowerupItem.Create( powDef.PickBaseItem(), npc.position, powDef.TickDuration, powDef.IsTypeHidden );
 				}
 			}
 		}

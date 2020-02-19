@@ -8,6 +8,9 @@ using HamstarHelpers.Helpers.Debug;
 namespace Powerups.Items {
 	public partial class PowerupItem : ModItem {
 		private Texture2D GetOverlayTexture() {
+			if( this.IsTypeHidden ) {
+				return Main.confuseTexture;
+			}
 			if( this.BaseItem != null ) {
 				return Main.itemTexture[ this.BaseItem.type ];
 			}

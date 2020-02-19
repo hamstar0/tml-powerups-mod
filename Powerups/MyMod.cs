@@ -55,7 +55,7 @@ namespace Powerups {
 
 					foreach( PowerupDefinition powDef in PowerupsConfig.Instance.PotLootPowerups ) {
 						if( powDef.Context?.ToContext().Check() ?? true ) {
-							PowerupItem.Create( powDef.PickBaseItem(), pos, powDef.TickDuration );
+							PowerupItem.Create( powDef.PickBaseItem(), pos, powDef.TickDuration, powDef.IsTypeHidden );
 						}
 					}
 					return null;

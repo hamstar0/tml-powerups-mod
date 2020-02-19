@@ -12,7 +12,7 @@ using Powerups.Buffs;
 
 namespace Powerups.Items {
 	public partial class PowerupItem : ModItem {
-		public static Item Create( Item baseItem, Vector2 position, int tickDuration ) {
+		public static Item Create( Item baseItem, Vector2 position, int tickDuration, bool isTypeHidden ) {
 			int powerupType = ModContent.ItemType<PowerupItem>();
 			int powerupItemWho = ItemHelpers.CreateItem( position, powerupType, 1, 16, 16 );
 			Item powerupItem = Main.item[powerupItemWho];
@@ -20,6 +20,7 @@ namespace Powerups.Items {
 			var myitem = (PowerupItem)powerupItem.modItem;
 			myitem.BaseItem = baseItem;
 			myitem.TickDuration = tickDuration;
+			myitem.IsTypeHidden = isTypeHidden;
 
 			if( baseItem.potion ) {
 				myitem.BaseBuffType = baseItem.buffType;
@@ -28,7 +29,11 @@ namespace Powerups.Items {
 				return null;
 			}
 
-			powerupItem.SetNameOverride( baseItem.Name + " Powerup" );
+			if( !isTypeHidden ) {
+				powerupItem.SetNameOverride( baseItem.Name + " Powerup" );
+			} else {
+				powerupItem.SetNameOverride( "Mystery Powerup" );
+			}
 
 			return powerupItem;
 		}
@@ -40,6 +45,7 @@ namespace Powerups.Items {
 		private Item BaseItem = null;
 		private int BaseBuffType = -1;
 		private int TickDuration = 0;
+		private bool IsTypeHidden = false;
 
 
 

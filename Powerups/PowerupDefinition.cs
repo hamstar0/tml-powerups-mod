@@ -19,6 +19,8 @@ namespace Powerups {
 
 		public ContextConfig Context { get; set; } = null;
 
+		public bool IsTypeHidden { get; set; } = false;
+
 		public ItemDefinition ItemDef { get; set; }
 
 		public string ItemEntityGroupName { get; set; } = null;
