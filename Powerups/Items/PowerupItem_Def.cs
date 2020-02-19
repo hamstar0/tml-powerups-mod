@@ -26,9 +26,7 @@ namespace Powerups.Items {
 			myitem.TickDuration = tickDuration;
 			myitem.IsTypeHidden = isTypeHidden;
 
-			if( baseItem.potion ) {
-				myitem.BaseBuffType = baseItem.buffType;
-			} else if( !baseItem.accessory ) {
+			if( !baseItem.potion && !baseItem.accessory ) {
 				LogHelpers.Alert( "Invalid powerup base item " + baseItem.Name );
 				return null;
 			}
@@ -47,7 +45,6 @@ namespace Powerups.Items {
 		////////////////
 
 		private Item BaseItem = null;
-		private int BaseBuffType = -1;
 		private int TickDuration = 0;
 		private bool IsTypeHidden = false;
 
@@ -79,7 +76,6 @@ namespace Powerups.Items {
 			this.BaseItem = null;
 
 			string itemName = tag.GetString( "item" );
-			this.BaseBuffType = tag.GetInt( "buff" );
 
 			if( string.IsNullOrEmpty( itemName ) ) {
 				var itemDef = new ItemDefinition( itemName );
@@ -93,8 +89,7 @@ namespace Powerups.Items {
 				? ItemID.GetUniqueKey( this.BaseItem.type )
 				: "";
 			var tag = new TagCompound {
-				{ "item", itemKey },
-				{ "buff", this.BaseBuffType }
+				{ "item", itemKey }
 			};
 
 			return tag;
@@ -104,14 +99,12 @@ namespace Powerups.Items {
 		////////////////
 
 		public override bool OnPickup( Player player ) {
-			if( this.BaseBuffType != -1 ) {
-				player.AddBuff( this.BaseBuffType, this.TickDuration );
+			if( this.BaseItem.potion ) {
+				player.AddBuff( this.BaseItem.buffType, this.TickDuration );
 
-				string msg = BuffAttributesHelpers.GetBuffDisplayName( this.BaseBuffType ) + " Powerup!";
+				string msg = BuffAttributesHelpers.GetBuffDisplayName( this.BaseItem.buffType ) + " Powerup!";
 				CombatText.NewText( player.getRect(), Color.Lime, msg );
-			}
-
-			if( this.BaseItem != null ) {
+			} else {
 				var myplayer = player.GetModPlayer<PowerupsPlayer>();
 				myplayer.PowerupItems.Add( (this.TickDuration, this.BaseItem) );
 
