@@ -14,9 +14,6 @@ namespace Powerups.Items {
 			if( this.BaseItem != null ) {
 				return Main.itemTexture[ this.BaseItem.type ];
 			}
-			if( this.BaseBuffType > 0 ) {
-				return Main.buffTexture[ this.BaseBuffType ];
-			}
 			return null;
 		}
 
