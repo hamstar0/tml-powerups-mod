@@ -1,6 +1,6 @@
 displayName = Powerups!
 author = hamstar
-version = 0.9.2
+version = 1.0.0
 modReferences = HamstarHelpers@5.5.0
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://forums.terraria.org/index.php?threads/adventure-mode.85140/

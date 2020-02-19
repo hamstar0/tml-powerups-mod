@@ -111,6 +111,8 @@ namespace Powerups.Items {
 				player.AddBuff( ModContent.BuffType<PowerupBuff>(), 2 );
 			}
 
+			Main.PlaySound( SoundID.Item30, this.item.Center );
+
 			return false;
 		}
 	}

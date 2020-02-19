@@ -3,9 +3,9 @@ v1
 -	@MH
 	-	Disable IP check setting
 	-	Link to Discord?
--	Add API for applying processing powerups
--	Add powerup item pickup FX
 
+-	Add API for applying processing to created powerups
+-	Add powerup item pickup FX
 -	Add powerup item lingering FX
 -	Fix powerup item overlay size and brightness
 -	Add powerup item hover text

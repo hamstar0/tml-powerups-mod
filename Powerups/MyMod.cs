@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using HamstarHelpers.Helpers.Buffs;
+using HamstarHelpers.Helpers.TModLoader.Mods;
 using HamstarHelpers.Services.EntityGroups;
 using Powerups.Items;
 using Powerups.Buffs;
@@ -20,6 +21,12 @@ namespace Powerups {
 
 		public static string GithubUserName => "hamstar0";
 		public static string GithubProjectName => "tml-powerups-mod";
+
+
+
+		////////////////
+
+		internal IList<Func<PowerupDefinition, Item, Item>> PrePickBaseItemFuncs = new List<Func<PowerupDefinition, Item, Item>>();
 
 
 
@@ -56,6 +63,13 @@ namespace Powerups {
 
 				potluckMod.Call( "AddPotBreakAction", onTileBreak );
 			}
+		}
+
+
+		////////////////
+
+		public override object Call( params object[] args ) {
+			return ModBoilerplateHelpers.HandleModCall( typeof(PowerupsAPI), args );
 		}
 
 

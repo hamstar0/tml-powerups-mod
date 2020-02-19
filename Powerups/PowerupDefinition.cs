@@ -60,6 +60,8 @@ namespace Powerups {
 					}
 				}
 			}
+			
+			baseItem = PowerupsAPI.OnPickItem( this, baseItem );
 
 			return baseItem;
 		}
