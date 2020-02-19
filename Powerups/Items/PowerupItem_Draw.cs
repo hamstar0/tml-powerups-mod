@@ -20,7 +20,7 @@ namespace Powerups.Items {
 
 		////////////////
 
-		public override void PostDrawInInventory(
+		/*public override void PostDrawInInventory(
 					SpriteBatch spriteBatch,
 					Vector2 position,
 					Rectangle frame,
@@ -60,8 +60,19 @@ namespace Powerups.Items {
 				effects: SpriteEffects.None,
 				layerDepth: 1f
 			);
-		}
+		}*/
 
+
+		////
+
+		private bool Glow = false;
+
+		public override Color? GetAlpha( Color lightColor ) {
+			this.Glow = !this.Glow;
+			return this.Glow
+				? Color.White * 0.8f
+				: Color.White * 0.1f;
+		}
 
 		public override void PostDrawInWorld(
 					SpriteBatch sb,
@@ -70,37 +81,36 @@ namespace Powerups.Items {
 					float rotation,
 					float scale,
 					int whoAmI ) {
-			Texture2D containerItemTex = Main.itemTexture[ModContent.ItemType<PowerupItem>()];
+			Texture2D containerItemTex = Main.itemTexture[ ModContent.ItemType<PowerupItem>() ];
 			Texture2D overlayItemTex = this.GetOverlayTexture();
 			if( overlayItemTex == null ) { return; }
 
-			Vector2 position = this.item.position - Main.screenPosition;
+			Vector2 center = this.item.Center - Main.screenPosition;
 
-			int hiDim = overlayItemTex.Width > overlayItemTex.Height ? overlayItemTex.Width : overlayItemTex.Height;
-			float customScale = 32f / (float)hiDim;//0.75f;
+			int containerDim = containerItemTex.Width;
+			int overlayDim = overlayItemTex.Width > overlayItemTex.Height
+				? overlayItemTex.Width
+				: overlayItemTex.Height;
 
-			float overlayWid = overlayItemTex.Width * customScale;
-			float overlayHei = overlayItemTex.Height * customScale;
+			float overlayFitScale = ((float)containerDim * 0.65f) / (float)overlayDim;
+			float overlayScale = overlayFitScale * scale;
 
-			float halfContainerWid = ( (float)containerItemTex.Width * scale ) * 0.5f;
-			float halfContainerHei = ( (float)containerItemTex.Height * scale ) * 0.5f;
-			float halfOverlayWid = ( (float)overlayWid * scale ) * 0.5f;
-			float halfOverlayHei = ( (float)overlayHei * scale ) * 0.5f;
-			float posX = ( position.X + halfContainerWid ) - halfOverlayWid;
-			float posY = ( position.Y + halfContainerHei ) - halfOverlayHei;
-			//posY += 6f * scale;
+			float halfOverlayWid = (float)overlayItemTex.Width * overlayScale * 0.5f;
+			float halfOverlayHei = (float)overlayItemTex.Height * overlayScale * 0.5f;
 
-			var srcRect = new Rectangle( 0, 0, overlayItemTex.Width, overlayItemTex.Height );
-			float newScale = scale * customScale;
+			float posX = center.X - halfOverlayWid;
+			float posY = center.Y - halfOverlayHei;
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: overlayItemTex,
 				position: new Vector2( posX, posY ),
-				sourceRectangle: srcRect,
-				color: Color.White,
-				rotation: 0f,
-				origin: default( Vector2 ),
-				scale: newScale,
+				sourceRectangle: null,
+				color: this.Glow
+					? Color.White * 0.8f
+					: Color.White * 0.1f,
+				rotation: rotation,
+				origin: default(Vector2),
+				scale: overlayScale,
 				effects: SpriteEffects.None,
 				layerDepth: 1f
 			);

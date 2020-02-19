@@ -30,9 +30,9 @@ namespace Powerups.Buffs {
 			if( PowerupBuff.ItemAnimationPhaseDuration <= 0 ) {
 				PowerupBuff.ItemAnimationPhaseDuration = 30;
 				PowerupBuff.ItemAnimationPhase++;
-				if( PowerupBuff.ItemAnimationPhase >= itemCount ) {
-					PowerupBuff.ItemAnimationPhase = 0;
-				}
+			}
+			if( PowerupBuff.ItemAnimationPhase >= itemCount ) {
+				PowerupBuff.ItemAnimationPhase = 0;
 			}
 
 			Item phaseItem = myplayer.PowerupItems[ PowerupBuff.ItemAnimationPhase ].Item;
