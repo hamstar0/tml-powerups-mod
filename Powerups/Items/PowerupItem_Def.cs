@@ -26,7 +26,7 @@ namespace Powerups.Items {
 			myitem.TickDuration = tickDuration;
 			myitem.IsTypeHidden = isTypeHidden;
 
-			if( !baseItem.potion && !baseItem.accessory ) {
+			if( baseItem.buffType > 0 && !baseItem.accessory ) {
 				LogHelpers.Alert( "Invalid powerup base item " + baseItem.Name );
 				return null;
 			}
@@ -99,11 +99,24 @@ namespace Powerups.Items {
 		////////////////
 
 		public override bool OnPickup( Player player ) {
-			if( this.BaseItem.potion ) {
+			if( this.BaseItem.buffType > 0 ) {
 				player.AddBuff( this.BaseItem.buffType, this.TickDuration );
 
-				string msg = BuffAttributesHelpers.GetBuffDisplayName( this.BaseItem.buffType ) + " Powerup!";
+				string msg = BuffAttributesHelpers.GetBuffDisplayName(this.BaseItem.buffType) + " Powerup!";
 				CombatText.NewText( player.getRect(), Color.Lime, msg );
+			} else if( this.BaseItem.potion ) {
+				if( this.BaseItem.healLife > 0 ) {
+					player.statLife += this.BaseItem.healLife;
+
+					string msg = "+"+ this.BaseItem.healLife + " HP Healed!";
+					CombatText.NewText( player.getRect(), Color.Lime, msg );
+				}
+				if( this.BaseItem.healMana > 0 ) {
+					player.statMana += this.BaseItem.healMana;
+
+					string msg = "+" + this.BaseItem.healMana + " Mana Healed!";
+					CombatText.NewText( player.getRect(), Color.Blue, msg );
+				}
 			} else {
 				var myplayer = player.GetModPlayer<PowerupsPlayer>();
 				myplayer.PowerupItems.Add( (this.TickDuration, this.BaseItem) );

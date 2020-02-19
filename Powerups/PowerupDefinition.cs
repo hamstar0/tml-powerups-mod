@@ -84,10 +84,15 @@ namespace Powerups {
 				}
 			} else {
 				IReadOnlySet<int> accGrp, potGrp;
+
 				if( EntityGroups.TryGetItemGroup(ItemGroupIDs.AnyAccessory, out accGrp) ) {
 					if( EntityGroups.TryGetItemGroup(ItemGroupIDs.AnyPotion, out potGrp) ) {
 						ISet<int> totalGrp = new HashSet<int>( accGrp );
-						int[] totalGrpArr = totalGrp.Union(potGrp).ToArray();
+						totalGrp.UnionWith( potGrp );
+						int[] totalGrpArr = totalGrp.ToArray();
+						if( totalGrpArr.Length == 0 ) {
+							return null;
+						}
 
 						int randIdx = TmlHelpers.SafelyGetRand().Next( 0, totalGrpArr.Length );
 

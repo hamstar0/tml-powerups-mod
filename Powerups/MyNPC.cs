@@ -10,7 +10,10 @@ namespace Powerups {
 		public override void NPCLoot( NPC npc ) {
 			PowerupDefinition powDef = PowerupDefinition.TryPickDefinition( npc.position );
 			if( powDef != null ) {
-				PowerupItem.Create( powDef.PickBaseItem(), npc.position, powDef.TickDuration, powDef.IsTypeHidden );
+				Item baseItem = powDef.PickBaseItem();
+				if( baseItem != null ) {
+					PowerupItem.Create( baseItem, npc.position, powDef.TickDuration, powDef.IsTypeHidden );
+				}
 			}
 		}
 	}

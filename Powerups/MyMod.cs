@@ -55,7 +55,10 @@ namespace Powerups {
 
 					PowerupDefinition powDef = PowerupDefinition.TryPickDefinition( pos );
 					if( powDef != null ) {
-						PowerupItem.Create( powDef.PickBaseItem(), pos, powDef.TickDuration, powDef.IsTypeHidden );
+						Item baseItem = powDef.PickBaseItem();
+						if( baseItem != null ) {
+							PowerupItem.Create( baseItem, pos, powDef.TickDuration, powDef.IsTypeHidden );
+						}
 					}
 					return null;
 				};
