@@ -2,17 +2,52 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader.Config;
+using Terraria.Utilities;
 using HamstarHelpers.Classes.Context;
 using HamstarHelpers.Classes.DataStructures;
 using HamstarHelpers.Helpers.TModLoader;
 using HamstarHelpers.Services.EntityGroups;
 using HamstarHelpers.Services.EntityGroups.Definitions;
+using Powerups.Items;
 
 
 namespace Powerups {
 	public class PowerupDefinition {
+		public static PowerupDefinition TryPickDefinition( Vector2 position ) {
+			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			var powDefs = new List<PowerupDefinition>();
+			int tileX = (int)position.X / 16;
+			int tileY = (int)position.Y / 16;
+
+			foreach( PowerupDefinition powDef in PowerupsConfig.Instance.NPCLootPowerups ) {
+				if( powDef.Context?.ToContext().Check(tileX, tileY) ?? true ) {
+					powDefs.Add( powDef );
+					PowerupItem.Create( powDef.PickBaseItem(), position, powDef.TickDuration, powDef.IsTypeHidden );
+				}
+			}
+
+			float totalChance = powDefs.Sum( pd => pd.PercentDropChance );
+			float chance = rand.NextFloat() * totalChance;
+
+			float countedChance = 0f;
+			for( int i=0; i<powDefs.Count; i++ ) {
+				countedChance += powDefs[i].PercentDropChance;
+
+				if( chance < countedChance ) {
+					return powDefs[i];
+				}
+			}
+
+			return null;
+		}
+
+
+
+		////////////////
+
 		[Range( 0f, 1f )]
 		[DefaultValue( 1f )]
 		public float PercentDropChance { get; set; } = 1f;

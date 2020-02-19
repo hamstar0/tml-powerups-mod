@@ -53,10 +53,9 @@ namespace Powerups {
 				Func<(int, int), Item[]> onTileBreak = ( (int x, int y) tile ) => {
 					var pos = new Vector2( tile.x << 4, tile.y << 4 );
 
-					foreach( PowerupDefinition powDef in PowerupsConfig.Instance.PotLootPowerups ) {
-						if( powDef.Context?.ToContext().Check() ?? true ) {
-							PowerupItem.Create( powDef.PickBaseItem(), pos, powDef.TickDuration, powDef.IsTypeHidden );
-						}
+					PowerupDefinition powDef = PowerupDefinition.TryPickDefinition( pos );
+					if( powDef != null ) {
+						PowerupItem.Create( powDef.PickBaseItem(), pos, powDef.TickDuration, powDef.IsTypeHidden );
 					}
 					return null;
 				};
