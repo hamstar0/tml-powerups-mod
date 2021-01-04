@@ -11,7 +11,6 @@ using HamstarHelpers.Classes.DataStructures;
 using HamstarHelpers.Helpers.TModLoader;
 using HamstarHelpers.Services.EntityGroups;
 using HamstarHelpers.Services.EntityGroups.Definitions;
-using Powerups.Items;
 
 
 namespace Powerups {
@@ -51,14 +50,19 @@ namespace Powerups {
 		[DefaultValue( 1f )]
 		public float PercentDropChance { get; set; } = 1f;
 
+		[Label( "When and where this powerup appears" )]
 		public ContextConfig Context { get; set; } = null;
 
+		[Label( "Does not reveal the powerup type" )]
 		public bool IsTypeHidden { get; set; } = false;
 
+		[Label( "Item to use as a powerup" )]
 		public ItemDefinition ItemDef { get; set; }
 
+		[Label( "Set of items to pick from (by group name) when no single item given" )]
 		public string ItemEntityGroupName { get; set; } = null;
 
+		[Label( "Duration of powerup" )]
 		[Range( 2, 60 * 60 * 60 )]
 		[DefaultValue( 60 * 90 )]
 		public int TickDuration { get; set; } = 60 * 90;

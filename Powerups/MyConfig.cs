@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using HamstarHelpers.Classes.UI.ModConfig;
-using HamstarHelpers.Services.Configs;
 
 
 namespace Powerups {
@@ -11,8 +11,8 @@ namespace Powerups {
 
 
 
-	class PowerupsConfig : StackableModConfig {
-		public static PowerupsConfig Instance => ModConfigStack.GetMergedConfigs<PowerupsConfig>();
+	class PowerupsConfig : ModConfig {
+		public static PowerupsConfig Instance => ModContent.GetInstance<PowerupsConfig>();
 
 
 

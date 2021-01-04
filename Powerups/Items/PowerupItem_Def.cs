@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,35 +7,41 @@ using Terraria.ModLoader.Config;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Buffs;
 using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Items;
 using Powerups.Buffs;
 
 
 namespace Powerups.Items {
 	public partial class PowerupItem : ModItem {
-		public static Item Create( Item baseItem, Vector2 position, int tickDuration, bool isTypeHidden ) {
+		public static Item Create( Item powItem, Vector2 position, int tickDuration, bool isTypeHidden ) {
+			if( powItem.buffType <= 0 && !powItem.accessory && powItem.headSlot < 0 && powItem.bodySlot < 0 && powItem.legSlot < 0 ) {
+				LogHelpers.Log( "Invalid powerup base item " + powItem.Name );
+				return null;
+			}
+
 			int powerupType = ModContent.ItemType<PowerupItem>();
-			int powerupItemWho = ItemHelpers.CreateItem( position, powerupType, 1, 16, 16 );
+			int powerupItemWho = Item.NewItem( position: position, Type: powerupType );
+			if( powerupItemWho == -1 ) {
+				return null;
+			}
 
 			Item powerupItem = Main.item[ powerupItemWho ];
 			if( !powerupItem.active ) {
 				return null;
 			}
-
+			
 			var myitem = (PowerupItem)powerupItem.modItem;
-			myitem.BaseItem = baseItem;
+			myitem.BaseItem = powItem;
 			myitem.TickDuration = tickDuration;
 			myitem.IsTypeHidden = isTypeHidden;
 
-			if( baseItem.buffType > 0 && !baseItem.accessory ) {
-				LogHelpers.Alert( "Invalid powerup base item " + baseItem.Name );
-				return null;
-			}
-
 			if( !isTypeHidden ) {
-				powerupItem.SetNameOverride( baseItem.Name + " Powerup" );
+				powerupItem.SetNameOverride( powItem.Name+" Powerup" );
 			} else {
 				powerupItem.SetNameOverride( "Mystery Powerup" );
+			}
+
+			if( Main.netMode == NetmodeID.Server ) {
+				NetMessage.SendData( MessageID.SyncItem, -1, -1, null, powerupItemWho );
 			}
 			
 			return powerupItem;
@@ -93,6 +100,28 @@ namespace Powerups.Items {
 			};
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public override void NetSend( BinaryWriter writer ) {
+			try {
+				writer.Write( (int)this.BaseItem.type );
+				writer.Write( (int)this.TickDuration );
+				writer.Write( (bool)this.IsTypeHidden );
+			} catch { }
+		}
+
+		public override void NetRecieve( BinaryReader reader ) {
+			try {
+				int itemType = reader.ReadInt32();
+				this.TickDuration = reader.ReadInt32();
+				this.IsTypeHidden = reader.ReadBoolean();
+
+				this.BaseItem = new Item();
+				this.BaseItem.SetDefaults( itemType, false );
+			} catch { }
 		}
 
 

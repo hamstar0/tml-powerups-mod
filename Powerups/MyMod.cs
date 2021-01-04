@@ -54,8 +54,10 @@ namespace Powerups {
 					var pos = new Vector2( tile.x << 4, tile.y << 4 );
 
 					PowerupDefinition powDef = PowerupDefinition.TryPickDefinition( pos );
+
 					if( powDef != null ) {
 						Item baseItem = powDef.PickBaseItem();
+
 						if( baseItem != null ) {
 							PowerupItem.Create( baseItem, pos, powDef.TickDuration, powDef.IsTypeHidden );
 						}
@@ -93,7 +95,8 @@ namespace Powerups {
 
 				IDictionary<int, Rectangle> buffFrames = BuffHUDHelpers.GetVanillaBuffIconRectanglesByPosition( false );
 				foreach( KeyValuePair<int, Rectangle> kv in buffFrames.ToArray() ) {
-					buffFrames[kv.Key] = new Rectangle( kv.Value.X + 2, kv.Value.Y + 2, kv.Value.Width - 4, kv.Value.Height - 4 );
+					Rectangle frame = kv.Value;
+					buffFrames[kv.Key] = new Rectangle( frame.X+2, frame.Y+2, frame.Width-4, frame.Height-4 );
 				}
 
 				if( buffFrames.ContainsKey(buffIdx) ) {

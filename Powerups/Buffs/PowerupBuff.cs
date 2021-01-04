@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,10 +17,7 @@ namespace Powerups.Buffs {
 
 		public static void DrawBuffIconOverlay( Rectangle frame ) {
 			var myplayer = TmlHelpers.SafelyGetModPlayer<PowerupsPlayer>( Main.LocalPlayer );
-			int itemCount = myplayer.PowerupItems
-				.Where( i => i.Item.accessory )
-				.ToArray()
-				.Length;
+			int itemCount = myplayer.PowerupItems.Count;
 			if( itemCount == 0 ) {
 				return;
 			}
@@ -35,7 +31,20 @@ namespace Powerups.Buffs {
 				PowerupBuff.ItemAnimationPhase = 0;
 			}
 
-			Item phaseItem = myplayer.PowerupItems[ PowerupBuff.ItemAnimationPhase ].Item;
+			Item phaseItem;
+			do {
+				phaseItem = myplayer.PowerupItems[ PowerupBuff.ItemAnimationPhase ].Item;
+
+				if( !phaseItem.accessory && phaseItem.headSlot < 0 && phaseItem.bodySlot < 0 && phaseItem.legSlot < 0 ) {
+					phaseItem = null;
+					PowerupBuff.ItemAnimationPhase++;
+
+					if( PowerupBuff.ItemAnimationPhase >= itemCount ) {
+						PowerupBuff.ItemAnimationPhase = 0;
+						return;
+					}
+				}
+			} while( phaseItem != null );
 
 			Main.spriteBatch.Draw(
 				texture: Main.itemTexture[ phaseItem.type ],
@@ -67,7 +76,7 @@ namespace Powerups.Buffs {
 				//Color color = ItemRarityAttributeHelpers.RarityColor[ item.rare ];
 				//string colorHex = XNAColorHelpers.RenderHex( color );
 
-				tip += "\n  " + item.Name + ": " + MiscHelpers.RenderTickDuration(tickDuration) + " remaining";
+				tip += "\n  "+item.Name+": "+MiscHelpers.RenderTickDuration(tickDuration)+" remaining";
 			}
 		}
 
