@@ -14,19 +14,26 @@ using HamstarHelpers.Services.EntityGroups.Definitions;
 
 
 namespace Powerups {
-	public class PowerupDefinition {
+	public partial class PowerupDefinition {
 		public static PowerupDefinition TryPickDefinition( Vector2 position ) {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 			var powDefs = new List<PowerupDefinition>();
+			var unpowDefs = new List<PowerupDefinition>();
 			int tileX = (int)position.X / 16;
 			int tileY = (int)position.Y / 16;
 
 			foreach( PowerupDefinition powDef in PowerupsConfig.Instance.NPCLootPowerups ) {
 				if( powDef.Context?.ToContext().Check(tileX, tileY) ?? true ) {
-					powDefs.Add( powDef );
+					if( !powDef.RemoveMeFromPool ) {
+						powDefs.Add( powDef );
+					}
+					else {
+						unpowDefs.Add( powDef );
+					}
 				}
 			}
 
+			PowerupDefinition pick = null;
 			float totalChance = powDefs.Sum( pd => pd.PercentDropChance );
 			float chance = rand.NextFloat() * totalChance;
 
@@ -35,11 +42,14 @@ namespace Powerups {
 				countedChance += powDefs[i].PercentDropChance;
 
 				if( chance < countedChance ) {
-					return powDefs[i];
+					pick = powDefs[i];
+					pick.Filters = unpowDefs;
+
+					break;
 				}
 			}
 
-			return null;
+			return pick;
 		}
 
 
@@ -66,6 +76,14 @@ namespace Powerups {
 		[Range( 2, 60 * 60 * 60 )]
 		[DefaultValue( 60 * 90 )]
 		public int TickDuration { get; set; } = 60 * 90;
+
+		[Label( "Instead remove the given item(s) from the pool" )]
+		public bool RemoveMeFromPool { get; set; } = false;
+
+
+		////////////////
+
+		private IList<PowerupDefinition> Filters = new List<PowerupDefinition>();
 
 
 

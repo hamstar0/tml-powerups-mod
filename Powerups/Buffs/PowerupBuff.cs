@@ -16,7 +16,7 @@ namespace Powerups.Buffs {
 		////////////////
 
 		public static void DrawBuffIconOverlay( Rectangle frame ) {
-			var myplayer = TmlHelpers.SafelyGetModPlayer<PowerupsPlayer>( Main.LocalPlayer );
+			var myplayer = Main.LocalPlayer.GetModPlayer<PowerupsPlayer>();
 			int itemCount = myplayer.PowerupItems.Count;
 			if( itemCount == 0 ) {
 				return;
@@ -31,12 +31,12 @@ namespace Powerups.Buffs {
 				PowerupBuff.ItemAnimationPhase = 0;
 			}
 
-			Item phaseItem;
+			Item powItem;
 			do {
-				phaseItem = myplayer.PowerupItems[ PowerupBuff.ItemAnimationPhase ].Item;
+				powItem = myplayer.PowerupItems[ PowerupBuff.ItemAnimationPhase ].Item;
 
-				if( !phaseItem.accessory && phaseItem.headSlot < 0 && phaseItem.bodySlot < 0 && phaseItem.legSlot < 0 ) {
-					phaseItem = null;
+				if( !powItem.accessory && powItem.headSlot < 0 && powItem.bodySlot < 0 && powItem.legSlot < 0 ) {
+					powItem = null;
 					PowerupBuff.ItemAnimationPhase++;
 
 					if( PowerupBuff.ItemAnimationPhase >= itemCount ) {
@@ -44,10 +44,10 @@ namespace Powerups.Buffs {
 						return;
 					}
 				}
-			} while( phaseItem != null );
+			} while( powItem == null );
 
 			Main.spriteBatch.Draw(
-				texture: Main.itemTexture[ phaseItem.type ],
+				texture: Main.itemTexture[ powItem.type ],
 				destinationRectangle: frame,
 				sourceRectangle: null,
 				color: Color.White
